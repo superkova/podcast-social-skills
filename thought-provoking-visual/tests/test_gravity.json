@@ -1,0 +1,14 @@
+{
+  "bg": "#2D1B69",
+  "shapes": [
+    {"type": "circle", "cx": 540, "cy": 190, "r": 7, "fill": "#FFD93D"},
+    {"type": "circle", "cx": 540, "cy": 190, "r": 24, "stroke": "#FFD93D", "stroke_width": 2},
+    {"type": "circle", "cx": 540, "cy": 190, "r": 52, "stroke": "#FFD93D", "stroke_width": 1.5},
+    {"type": "circle", "cx": 540, "cy": 190, "r": 90, "stroke": "#FFD93D", "stroke_width": 1.2},
+    {"type": "circle", "cx": 540, "cy": 190, "r": 138, "stroke": "#FFD93D", "stroke_width": 1},
+
+    {"type": "line", "x1": 540, "y1": 328, "x2": 540, "y2": 520, "stroke": "#FFD93D", "stroke_width": 1.5},
+
+    {"type": "circle", "cx": 540, "cy": 780, "r": 260, "fill": "#FFD93D"}
+  ]
+}

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" width="200" height="60">
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366F1"/>
+      <stop offset="100%" style="stop-color:#8B5CF6"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="8" width="44" height="44" rx="10" fill="url(#g1)"/>
+  <path d="M14 30 L22 22 L30 30 L22 26 Z" fill="#ffffff" opacity="0.9"/>
+  <text x="54" y="39" font-family="system-ui, sans-serif" font-weight="700" font-size="26" fill="#6366F1">Prism</text>
+</svg>

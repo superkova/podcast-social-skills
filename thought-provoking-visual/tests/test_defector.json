@@ -1,0 +1,46 @@
+{
+  "bg": "#FAFAFA",
+  "shapes": [
+    {"type": "rect", "x": 195, "y": 195, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 295, "y": 195, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 395, "y": 195, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 495, "y": 195, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 595, "y": 195, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 695, "y": 195, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+
+    {"type": "rect", "x": 195, "y": 295, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 295, "y": 295, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 395, "y": 295, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 495, "y": 295, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 595, "y": 295, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 695, "y": 295, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+
+    {"type": "rect", "x": 195, "y": 395, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 295, "y": 395, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 395, "y": 395, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 495, "y": 395, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10, "rotate": 45},
+    {"type": "rect", "x": 595, "y": 395, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 695, "y": 395, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+
+    {"type": "rect", "x": 195, "y": 495, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 295, "y": 495, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 395, "y": 495, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 495, "y": 495, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 595, "y": 495, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 695, "y": 495, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+
+    {"type": "rect", "x": 195, "y": 595, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 295, "y": 595, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 395, "y": 595, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 495, "y": 595, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 595, "y": 595, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 695, "y": 595, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+
+    {"type": "rect", "x": 195, "y": 695, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 295, "y": 695, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 395, "y": 695, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 495, "y": 695, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 595, "y": 695, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10},
+    {"type": "rect", "x": 695, "y": 695, "w": 70, "h": 70, "stroke": "#FF3366", "stroke_width": 3, "radius": 10}
+  ]
+}

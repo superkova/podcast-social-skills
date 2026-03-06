@@ -1,0 +1,8 @@
+[
+  {"type": "hook", "title": "5 *Design* Principles Every Non-Designer Should Know", "subtitle": "Design thinking"},
+  {"type": "body", "title": "Whitespace is your *friend*", "body": "Resist the urge to fill every pixel. Generous spacing makes content breathable, scannable, and more professional."},
+  {"type": "body", "title": "Limit your *fonts*", "body": "Two fonts maximum. One for headings, one for body. More than that creates visual chaos and kills readability."},
+  {"type": "body", "title": "Contrast creates *hierarchy*", "body": "If everything is bold, nothing is bold. Use size, weight, and color to guide the eye to what matters most."},
+  {"type": "body", "title": "Align *everything*", "body": "Sloppy alignment is the #1 amateur tell. Use grids, snap to guides, and keep consistent margins throughout."},
+  {"type": "cta", "title": "Which principle changed your *designs* the most?", "subtitle": "Save this for your next project"}
+]

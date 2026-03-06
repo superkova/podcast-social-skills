@@ -1,0 +1,9 @@
+.env
+.DS_Store
+__pycache__/
+*.pyc
+
+# Generated output
+thought-provoking-visual/output/
+linkedin-carousel/carousel-*.pdf
+linkedin-carousel/tests/output/

@@ -1,0 +1,12 @@
+{
+  "bg": "#1A0505",
+  "shapes": [
+    {"type": "polygon", "points": [[540, 80], [940, 760], [140, 760]], "stroke": "#FF4444", "stroke_width": 3.5, "radius": 12},
+
+    {"type": "polygon", "points": [[540, 340], [720, 650], [360, 650]], "stroke": "#FF4444", "stroke_width": 3, "radius": 8},
+
+    {"type": "polygon", "points": [[540, 480], [620, 600], [460, 600]], "stroke": "#FF4444", "stroke_width": 2.5, "radius": 5},
+
+    {"type": "circle", "cx": 540, "cy": 555, "r": 4, "fill": "#FF4444"}
+  ]
+}

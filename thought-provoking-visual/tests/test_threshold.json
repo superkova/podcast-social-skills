@@ -1,0 +1,7 @@
+{
+  "bg": "#0F1B2D",
+  "shapes": [
+    {"type": "circle", "cx": 286, "cy": 286, "r": 360, "fill": "#00E5A0"},
+    {"type": "circle", "cx": 796, "cy": 796, "r": 360, "fill": "#00E5A0"}
+  ]
+}

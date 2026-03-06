@@ -1,0 +1,35 @@
+{
+  "bg": "#F5E6D3",
+  "shapes": [
+    {"type": "rect", "x": 515, "y": 290, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 0},
+    {"type": "rect", "x": 565, "y": 293, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 10},
+    {"type": "rect", "x": 612, "y": 304, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 20},
+    {"type": "rect", "x": 654, "y": 324, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 30},
+    {"type": "rect", "x": 690, "y": 352, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 40},
+    {"type": "rect", "x": 718, "y": 388, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 50},
+    {"type": "rect", "x": 736, "y": 430, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 60},
+    {"type": "rect", "x": 744, "y": 476, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 70},
+    {"type": "rect", "x": 742, "y": 524, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 80},
+    {"type": "rect", "x": 730, "y": 570, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 90},
+    {"type": "rect", "x": 708, "y": 612, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 100},
+    {"type": "rect", "x": 678, "y": 648, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 110},
+    {"type": "rect", "x": 642, "y": 674, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 120},
+    {"type": "rect", "x": 600, "y": 692, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 130},
+    {"type": "rect", "x": 556, "y": 700, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 140},
+    {"type": "rect", "x": 510, "y": 698, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 150},
+    {"type": "rect", "x": 466, "y": 686, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 160},
+    {"type": "rect", "x": 426, "y": 664, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 170},
+    {"type": "rect", "x": 392, "y": 634, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 180},
+    {"type": "rect", "x": 366, "y": 598, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 190},
+    {"type": "rect", "x": 348, "y": 556, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 200},
+    {"type": "rect", "x": 340, "y": 510, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 210},
+    {"type": "rect", "x": 342, "y": 464, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 220},
+    {"type": "rect", "x": 354, "y": 420, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 230},
+    {"type": "rect", "x": 374, "y": 380, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 240},
+    {"type": "rect", "x": 402, "y": 346, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 250},
+    {"type": "rect", "x": 436, "y": 320, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 260},
+    {"type": "rect", "x": 474, "y": 300, "w": 14, "h": 140, "fill": "#2C1810", "radius": 4, "rotate": 270},
+
+    {"type": "circle", "cx": 540, "cy": 500, "r": 6, "fill": "#2C1810"}
+  ]
+}
