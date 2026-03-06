@@ -4,6 +4,5 @@ __pycache__/
 *.pyc
 
 # Generated output
-thought-provoking-visual/output/
+**/output/
 linkedin-carousel/carousel-*.pdf
-linkedin-carousel/tests/output/
