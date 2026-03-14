@@ -19,7 +19,7 @@ Ask the user:
 
 1. **What's the idea?** — A short text, quote, or insight (up to 500 characters)
 2. **Project name?** — A short name displayed as a watermark on the visual (e.g. "The Growth Lab", "QT Insights"). This brands the visual.
-3. **Output folder?** (optional) — Where to save the files. Default: `thought-provoking-visual/output`
+3. **Output folder?** (optional) — Where to save the files. Default: `skills/thought-provoking-visual/output`
 4. **Color preference?** (optional) — A mood keyword, or two hex codes. Default: auto-selected based on the quote's emotional texture.
 
 ## Step 2: Analyze the idea
@@ -353,7 +353,7 @@ Generate a unique prefix from the idea to avoid overwriting previous runs:
 - Append a date stamp: `YYYYMMDD`
 - Example: idea "Success comes to those too busy to look" → `success-busy-20260305`
 
-All files for one run share the same prefix. The output folder is whatever the user specified (default `thought-provoking-visual/output`).
+All files for one run share the same prefix. The output folder is whatever the user specified (default `skills/thought-provoking-visual/output`).
 
 ### Generation steps
 
@@ -362,21 +362,21 @@ All files for one run share the same prefix. The output folder is whatever the u
 
 ```bash
 # Example with prefix "success-busy-20260305", watermark "The Growth Lab"
-OUT=thought-provoking-visual/output
+OUT=skills/thought-provoking-visual/output
 
-python thought-provoking-visual/scripts/generate_visual.py \
+python skills/thought-provoking-visual/scripts/generate_visual.py \
   --shapes $OUT/success-busy-20260305_option1.json \
   --output $OUT/success-busy-20260305_option1.png \
   --watermark "The Growth Lab" \
   --quote "Success usually comes to those who are too busy to be looking for it."
 
-python thought-provoking-visual/scripts/generate_visual.py \
+python skills/thought-provoking-visual/scripts/generate_visual.py \
   --shapes $OUT/success-busy-20260305_option2.json \
   --output $OUT/success-busy-20260305_option2.png \
   --watermark "The Growth Lab" \
   --quote "Success usually comes to those who are too busy to be looking for it."
 
-python thought-provoking-visual/scripts/generate_visual.py \
+python skills/thought-provoking-visual/scripts/generate_visual.py \
   --shapes $OUT/success-busy-20260305_option3.json \
   --output $OUT/success-busy-20260305_option3.png \
   --watermark "The Growth Lab" \
@@ -395,7 +395,7 @@ This generates for each option:
 5. Once the user picks, run the renderer again with the caption on the chosen option:
 
 ```bash
-python thought-provoking-visual/scripts/generate_visual.py \
+python skills/thought-provoking-visual/scripts/generate_visual.py \
   --shapes $OUT/success-busy-20260305_optionN.json \
   --output $OUT/success-busy-20260305_final.png \
   --watermark "The Growth Lab" \

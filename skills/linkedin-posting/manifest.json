@@ -1,0 +1,6 @@
+{
+  "name": "linkedin-posting",
+  "description": "Post content to LinkedIn via the Late API — text, image, video, and document/carousel posts with scheduling",
+  "author": "qtran",
+  "tags": ["linkedin", "social", "posting"]
+}

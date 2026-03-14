@@ -1,0 +1,6 @@
+{
+  "name": "publish-podcast",
+  "description": "Generate podcast audio via ElevenLabs TTS, upload to Supabase, and publish episodes with chapter markers",
+  "author": "qtran",
+  "tags": ["podcast", "audio", "publishing"]
+}

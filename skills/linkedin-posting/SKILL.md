@@ -146,7 +146,7 @@ Media URLs passed to Late must be:
 
 ## Script Location
 
-The posting script is at `linkedin-posting/scripts/post_to_linkedin.py` (relative to the project root).
+The posting script is at `skills/linkedin-posting/scripts/post_to_linkedin.py` (relative to the project root).
 
 ## Important Rules
 

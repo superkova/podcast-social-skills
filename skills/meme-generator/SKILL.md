@@ -40,7 +40,7 @@ Present your meme choice and the text to the user for approval before generating
 ### Step 3: Generate the Meme
 
 ```bash
-python meme-generator/scripts/create_meme.py create \
+python skills/meme-generator/scripts/create_meme.py create \
   --meme drake \
   --texts "Using ChatGPT to write your emails" "Using ChatGPT to write prompts for ChatGPT to write your emails"
 ```
@@ -50,8 +50,8 @@ Each `--texts` argument maps to a text zone in the template (in order). See the 
 ### Step 4: Upload to Supabase (Optional)
 
 ```bash
-python meme-generator/scripts/create_meme.py upload \
-  --file meme-generator/output/drake-20260306-143000.png
+python skills/meme-generator/scripts/create_meme.py upload \
+  --file skills/meme-generator/output/drake-20260306-143000.png
 ```
 
 Uploads to Supabase storage (`podcast` bucket, `content/` folder) and returns the public URL.
