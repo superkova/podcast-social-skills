@@ -33,6 +33,11 @@ except ImportError:
     print("Error: Pillow is required. Install with: pip install Pillow", file=sys.stderr)
     sys.exit(1)
 
+try:
+    import cairosvg
+except ImportError:
+    cairosvg = None
+
 W, H = 1080, 1080
 SCALE = 3
 GIF_SIZE = 1080
@@ -555,56 +560,200 @@ def _gsap_html(shapes, bg_color, anim_spec, watermark=None, quote=None, fg_color
 
 
 # ──────────────────────────────────────────────
-# Playwright frame capture → GIF
+# Easing functions (GSAP-compatible)
 # ──────────────────────────────────────────────
 
-def _capture_html_to_gif(html_content, output_path, duration, fps=GIF_FPS):
-    """Use Playwright to capture frames from an HTML animation, assemble into GIF."""
-    try:
-        from playwright.sync_api import sync_playwright
-    except ImportError:
-        print("Error: playwright is required for tier 2/3 animations.", file=sys.stderr)
-        print("Install with: pip install playwright && playwright install chromium", file=sys.stderr)
+def _ease(t, name='power2.inOut'):
+    """Apply easing to a 0→1 progress value. Matches GSAP easing names."""
+    t = max(0.0, min(1.0, t))
+    if name == 'none' or name == 'linear':
+        return t
+
+    parts = name.split('.')
+    family = parts[0]
+    variant = parts[1] if len(parts) > 1 else 'out'
+
+    # Determine power
+    powers = {'power1': 2, 'power2': 3, 'power3': 4, 'power4': 5, 'quad': 2, 'cubic': 3, 'quart': 4, 'quint': 5}
+    p = powers.get(family, 3)
+
+    if variant == 'in':
+        return t ** p
+    elif variant == 'out':
+        return 1 - (1 - t) ** p
+    else:  # inOut
+        if t < 0.5:
+            return (2 ** (p - 1)) * (t ** p)
+        else:
+            return 1 - ((-2 * t + 2) ** p) / 2
+
+
+# ──────────────────────────────────────────────
+# Timeline interpolator
+# ──────────────────────────────────────────────
+
+def _resolve_timeline(timeline):
+    """Resolve timeline steps into absolute start times and return (start, duration, target, to, ease) tuples."""
+    resolved = []
+    cursor = 0.0  # current end-of-timeline position
+
+    for step in timeline:
+        dur = step.get('duration', 1)
+        delay = step.get('delay', 0)
+
+        if delay < 0:
+            start = max(0, cursor + delay)
+        elif delay > 0:
+            start = cursor + delay
+        else:
+            start = cursor
+
+        resolved.append({
+            'start': start,
+            'duration': dur,
+            'target': step['target'],
+            'to': step.get('to', {}),
+            'ease': step.get('ease', 'power2.inOut'),
+            'stagger': step.get('stagger', 0),
+        })
+
+        cursor = start + dur
+
+    return resolved
+
+
+def _interpolate_transforms(resolved_timeline, num_shapes, t):
+    """Get per-shape transform dict at time t. Returns list of dicts with x, y, rotate, scale, opacity."""
+    transforms = [{'x': 0, 'y': 0, 'rotate': 0, 'scale': 1, 'opacity': 1} for _ in range(num_shapes)]
+
+    for step in resolved_timeline:
+        targets = step['target']
+        if isinstance(targets, str) and targets == 'all':
+            targets = list(range(num_shapes))
+        elif isinstance(targets, int):
+            targets = [targets]
+
+        stagger = step['stagger']
+        for si, idx in enumerate(targets):
+            if idx < 0 or idx >= num_shapes:
+                continue
+            step_start = step['start'] + si * stagger
+            step_end = step_start + step['duration']
+
+            if t <= step_start:
+                progress = 0.0
+            elif t >= step_end:
+                progress = 1.0
+            else:
+                progress = (t - step_start) / step['duration']
+
+            eased = _ease(progress, step['ease'])
+
+            for prop, target_val in step['to'].items():
+                prop_key = prop
+                if prop in ('translateX',):
+                    prop_key = 'x'
+                elif prop in ('translateY',):
+                    prop_key = 'y'
+
+                if prop_key == 'scale':
+                    start_val = 1
+                elif prop_key == 'opacity':
+                    start_val = 1
+                else:
+                    start_val = 0
+
+                transforms[idx][prop_key] = start_val + (target_val - start_val) * eased
+
+    return transforms
+
+
+# ──────────────────────────────────────────────
+# CairoSVG frame renderer → GIF
+# ──────────────────────────────────────────────
+
+def _build_frame_svg(shapes, bg_color, transforms, watermark=None, quote=None, fg_color='#FFFFFF'):
+    """Build an SVG string for a single frame with transforms applied to each shape."""
+    parts = [
+        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}">',
+        f'  <rect width="{W}" height="{H}" fill="{bg_color}"/>',
+    ]
+
+    if quote:
+        parts.append(_svg_quote_text(quote, fg_color))
+
+    for i, s in enumerate(shapes):
+        elem = _svg_shape_element(s)
+        tr = transforms[i]
+        cx, cy = _shape_center(s)
+
+        # Build SVG transform: translate to center, apply scale+rotate, translate back, then apply x/y offset
+        tx = tr.get('x', 0)
+        ty = tr.get('y', 0)
+        rot = tr.get('rotate', 0)
+        sc = tr.get('scale', 1)
+        op = tr.get('opacity', 1)
+
+        transform_parts = []
+        # Translate by x/y offset
+        if tx != 0 or ty != 0:
+            transform_parts.append(f'translate({tx:.2f},{ty:.2f})')
+        # Rotate and scale around shape center
+        if rot != 0:
+            transform_parts.append(f'rotate({rot:.2f},{cx:.2f},{cy:.2f})')
+        if sc != 1:
+            transform_parts.append(f'translate({cx:.2f},{cy:.2f}) scale({sc:.4f}) translate({-cx:.2f},{-cy:.2f})')
+
+        transform_str = f' transform="{" ".join(transform_parts)}"' if transform_parts else ''
+        opacity_str = f' opacity="{op:.3f}"' if op < 1 else ''
+
+        parts.append(f'  <g{transform_str}{opacity_str}>{elem}</g>')
+
+    if watermark:
+        parts.append(
+            f'  <text x="{W - 32}" y="{H - 28}" font-family="Courier New, monospace" '
+            f'font-size="24" fill="{fg_color}" opacity="0.4" text-anchor="end">{watermark}</text>'
+        )
+
+    parts.append('</svg>')
+    return '\n'.join(parts)
+
+
+def _render_gif_cairosvg(shapes, bg_color, anim_spec, output_path, watermark=None, quote=None, fg_color='#FFFFFF'):
+    """Render animation to GIF using CairoSVG for frame rendering (no browser needed)."""
+    if cairosvg is None:
+        print("Error: cairosvg is required for GIF animation.", file=sys.stderr)
+        print("Install with: pip install cairosvg", file=sys.stderr)
         return None
 
-    n_frames = int(duration * fps)
+    import io
+
+    duration = anim_spec.get('duration', 5)
+    timeline = anim_spec.get('timeline', [])
+    repeat_delay = anim_spec.get('repeat_delay', 1)
+    total_duration = duration + repeat_delay
+    fps = GIF_FPS
+
+    n_frames = int(total_duration * fps)
     n_frames = max(n_frames, 2)
-    frame_ms = 1000 / fps
 
-    print(f"  Capturing {n_frames} frames at {fps}fps ({duration:.1f}s)...", end=' ', flush=True)
+    print(f"  Rendering {n_frames} frames at {fps}fps ({total_duration:.1f}s)...", end=' ', flush=True)
 
-    # Write HTML to temp file
-    with tempfile.NamedTemporaryFile(suffix='.html', mode='w', delete=False) as tmp:
-        tmp.write(html_content)
-        tmp_path = tmp.name
-
+    resolved = _resolve_timeline(timeline)
     frames = []
-    try:
-        with sync_playwright() as p:
-            browser = p.chromium.launch()
-            page = browser.new_page(viewport={'width': W, 'height': H})
-            page.goto(f'file://{tmp_path}')
 
-            # Wait for animation to be ready
-            page.wait_for_function('window.__ANIM_READY === true', timeout=10000)
+    for fi in range(n_frames):
+        t = fi / fps
+        # Clamp to animation duration (frames after duration show final state)
+        anim_t = min(t, duration)
+        transforms = _interpolate_transforms(resolved, len(shapes), anim_t)
 
-            # Capture frames at intervals
-            for fi in range(n_frames):
-                screenshot = page.screenshot(type='png')
-                img = Image.open(__import__('io').BytesIO(screenshot))
-                img = img.convert('RGB')
-                if img.size != (GIF_SIZE, GIF_SIZE):
-                    img = img.resize((GIF_SIZE, GIF_SIZE), Image.LANCZOS)
-                img = img.quantize(colors=256, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE)
-                frames.append(img)
+        svg_str = _build_frame_svg(shapes, bg_color, transforms, watermark=watermark, quote=quote, fg_color=fg_color)
+        png_data = cairosvg.svg2png(bytestring=svg_str.encode('utf-8'), output_width=GIF_SIZE, output_height=GIF_SIZE)
 
-                # Advance time — wait for next frame
-                if fi < n_frames - 1:
-                    page.wait_for_timeout(int(frame_ms))
-
-            browser.close()
-    finally:
-        Path(tmp_path).unlink(missing_ok=True)
+        img = Image.open(io.BytesIO(png_data)).convert('RGB')
+        img = img.quantize(colors=256, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE)
+        frames.append(img)
 
     if not frames:
         return None
@@ -619,7 +768,7 @@ def _capture_html_to_gif(html_content, output_path, duration, fps=GIF_FPS):
         optimize=True,
     )
 
-    # Check file size — if over 10MB, re-capture at 540px
+    # Check file size — if over 10MB, downscale to 540px
     gif_size = Path(output_path).stat().st_size
     if gif_size > 10 * 1024 * 1024:
         print(f"  GIF too large ({gif_size / 1024 / 1024:.1f}MB), downscaling to 540px...", end=' ', flush=True)
@@ -654,10 +803,9 @@ def _get_fg_color(shapes):
 
 
 def _render_gif(shapes, bg_color, anim_spec, output_path, watermark=None, quote=None, fg_color='#FFFFFF'):
-    """Render GSAP animation to GIF via Playwright."""
-    html = _gsap_html(shapes, bg_color, anim_spec, watermark=watermark, quote=quote, fg_color=fg_color)
-    duration = anim_spec.get('duration', 5)
-    return _capture_html_to_gif(html, output_path, duration)
+    """Render animation to GIF using CairoSVG (no browser needed)."""
+    return _render_gif_cairosvg(shapes, bg_color, anim_spec, output_path,
+                                watermark=watermark, quote=quote, fg_color=fg_color)
 
 
 # ──────────────────────────────────────────────
