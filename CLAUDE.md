@@ -11,3 +11,5 @@ Read and follow the skill file at `skills/research-paper-to-podcast/SKILL.md` wh
 Read and follow the skill file at `skills/publish-podcast/SKILL.md` when the user asks to publish a podcast, generate podcast audio from a script, convert a script to audio, or upload a podcast episode.
 
 Read and follow the skill file at `skills/meme-generator/SKILL.md` when the user asks to create a meme, make a meme, generate a meme image, or wants meme content.
+
+Read and follow the skill file at `skills/growth-analytics/SKILL.md` when the user asks to analyze post performance, check LinkedIn analytics, review social media metrics, see how posts are doing, check subscriber count, or get a growth report.

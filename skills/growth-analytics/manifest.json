@@ -1,0 +1,6 @@
+{
+  "name": "growth-analytics",
+  "description": "Analyze LinkedIn post performance via Late API and podcast subscriber growth via Supabase",
+  "author": "qtran",
+  "tags": ["analytics", "linkedin", "podcast", "growth"]
+}
