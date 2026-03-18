@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Post content to LinkedIn via Late API, with Supabase storage for media hosting."""
+"""Post content to LinkedIn via Zernio API, with Supabase storage for media hosting."""
 
 import argparse
 import json
@@ -14,7 +14,7 @@ import requests
 
 # ── Config ────────────────────────────────────────────────────────────────────
 
-LATE_API_BASE = "https://getlate.dev/api/v1"
+ZERNIO_API_BASE = "https://zernio.com/api/v1"
 SCRIPT_DIR = Path(__file__).resolve().parent
 ENV_FILE = SCRIPT_DIR.parent / ".env"
 
@@ -88,7 +88,7 @@ def upload_to_supabase(file_path: str, bucket: str) -> str:
     return public_url
 
 
-# ── Late API posting ─────────────────────────────────────────────────────────
+# ── Zernio API posting ───────────────────────────────────────────────────────
 
 
 def post_to_linkedin(
@@ -99,9 +99,9 @@ def post_to_linkedin(
     schedule: str | None = None,
     publish_now: bool = False,
 ) -> dict:
-    """Create a LinkedIn post via Late API."""
-    api_key = _get_env("LATE_API_KEY")
-    account_id = _get_env("LATE_LINKEDIN_ACCOUNT_ID")
+    """Create a LinkedIn post via Zernio API."""
+    api_key = _get_env("ZERNIO_API_KEY")
+    account_id = _get_env("ZERNIO_LINKEDIN_ACCOUNT_ID")
 
     if len(content) > 3000:
         print(f"Warning: Content is {len(content)} chars (max 3,000). Truncating.", file=sys.stderr)
@@ -139,7 +139,7 @@ def post_to_linkedin(
         payload["publishNow"] = True  # default to now
 
     resp = requests.post(
-        f"{LATE_API_BASE}/posts",
+        f"{ZERNIO_API_BASE}/posts",
         headers={
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json",
@@ -148,7 +148,7 @@ def post_to_linkedin(
     )
 
     if resp.status_code not in (200, 201):
-        print(f"Error from Late API: {resp.status_code}", file=sys.stderr)
+        print(f"Error from Zernio API: {resp.status_code}", file=sys.stderr)
         try:
             error_body = resp.json()
             print(json.dumps(error_body, indent=2), file=sys.stderr)
@@ -214,7 +214,7 @@ def cmd_post(args):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Post to LinkedIn via Late API")
+    parser = argparse.ArgumentParser(description="Post to LinkedIn via Zernio API")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     # Upload command

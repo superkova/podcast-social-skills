@@ -1,6 +1,6 @@
 # LinkedIn Posting
 
-Post content to LinkedIn via the [Late API](https://getlate.dev), with Supabase storage for media hosting.
+Post content to LinkedIn via the [Zernio API](https://zernio.com), with Supabase storage for media hosting.
 
 ## What it does
 
@@ -12,7 +12,7 @@ Publish LinkedIn posts directly from the command line. Supports:
 - **Video posts** — MP4, MOV, AVI (max 5 GB)
 - **Document/carousel posts** — PDF, PPT, PPTX, DOC, DOCX (swipeable carousel)
 
-Media files are uploaded to Supabase storage first, then the public URL is passed to the Late API.
+Media files are uploaded to Supabase storage first, then the public URL is passed to the Zernio API.
 
 ## Setup
 
@@ -24,8 +24,8 @@ pip install requests
 
 | Variable | Description |
 |---|---|
-| `LATE_API_KEY` | Late API key ([getlate.dev](https://getlate.dev)) |
-| `LATE_LINKEDIN_ACCOUNT_ID` | Your LinkedIn account ID in Late |
+| `ZERNIO_API_KEY` | Zernio API key ([zernio.com](https://zernio.com)) |
+| `ZERNIO_LINKEDIN_ACCOUNT_ID` | Your LinkedIn account ID in Zernio |
 | `SUPABASE_URL` | Supabase project URL |
 | `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key (for storage uploads) |
 

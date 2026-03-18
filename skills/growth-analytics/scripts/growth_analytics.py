@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fetch growth analytics from Late API (LinkedIn) and Supabase (subscribers)."""
+"""Fetch growth analytics from Zernio API (LinkedIn) and Supabase (subscribers)."""
 
 import argparse
 import json
@@ -12,7 +12,7 @@ import requests
 
 # ── Config ────────────────────────────────────────────────────────────────────
 
-LATE_API_BASE = "https://getlate.dev/api/v1"
+ZERNIO_API_BASE = "https://zernio.com/api/v1"
 SCRIPT_DIR = Path(__file__).resolve().parent
 ENV_FILE = SCRIPT_DIR.parent / ".env"
 
@@ -42,9 +42,9 @@ def _get_env(name: str) -> str:
     return val
 
 
-def _late_headers() -> dict:
+def _zernio_headers() -> dict:
     return {
-        "Authorization": f"Bearer {_get_env('LATE_API_KEY')}",
+        "Authorization": f"Bearer {_get_env('ZERNIO_API_KEY')}",
         "Content-Type": "application/json",
     }
 
@@ -62,7 +62,7 @@ def _supabase_url() -> str:
     return _get_env("SUPABASE_URL")
 
 
-# ── Late API: Post Analytics ─────────────────────────────────────────────────
+# ── Zernio API: Post Analytics ───────────────────────────────────────────────
 
 
 def fetch_post_analytics(
@@ -72,17 +72,16 @@ def fetch_post_analytics(
     limit: int = 50,
     page: int = 1,
 ) -> dict:
-    """Fetch post analytics from Late API."""
+    """Fetch post analytics from Zernio API."""
     params: dict = {
         "platform": "linkedin",
-        "source": "late",
         "sortBy": sort_by,
         "order": "desc",
         "limit": min(limit, 100),
         "page": page,
     }
-    # profileId is optional — only include if LATE_LINKEDIN_PROFILE_ID is set
-    profile_id = os.environ.get("LATE_LINKEDIN_PROFILE_ID")
+    # profileId is optional — only include if ZERNIO_LINKEDIN_PROFILE_ID is set
+    profile_id = os.environ.get("ZERNIO_LINKEDIN_PROFILE_ID")
     if profile_id:
         params["profileId"] = profile_id
 
@@ -95,16 +94,16 @@ def fetch_post_analytics(
         params["toDate"] = to_date.strftime("%Y-%m-%d")
 
     resp = requests.get(
-        f"{LATE_API_BASE}/analytics",
-        headers=_late_headers(),
+        f"{ZERNIO_API_BASE}/analytics",
+        headers=_zernio_headers(),
         params=params,
     )
 
     if resp.status_code == 402:
-        print("Error: Analytics add-on required. Enable it at https://getlate.dev", file=sys.stderr)
+        print("Error: Analytics add-on required. Enable it at https://zernio.com", file=sys.stderr)
         sys.exit(1)
     if resp.status_code != 200:
-        print(f"Error from Late API: {resp.status_code} {resp.text}", file=sys.stderr)
+        print(f"Error from Zernio API: {resp.status_code} {resp.text}", file=sys.stderr)
         sys.exit(1)
 
     return resp.json()
@@ -114,19 +113,19 @@ def fetch_daily_metrics(from_date: str, to_date: str) -> dict:
     """Fetch daily aggregated metrics."""
     params = {
         "platform": "linkedin",
-        "profileId": _get_env("LATE_LINKEDIN_ACCOUNT_ID"),
+        "profileId": _get_env("ZERNIO_LINKEDIN_ACCOUNT_ID"),
         "fromDate": from_date,
         "toDate": to_date,
     }
 
     resp = requests.get(
-        f"{LATE_API_BASE}/analytics/daily-metrics",
-        headers=_late_headers(),
+        f"{ZERNIO_API_BASE}/analytics/daily-metrics",
+        headers=_zernio_headers(),
         params=params,
     )
 
     if resp.status_code != 200:
-        print(f"Error fetching daily metrics: {resp.status_code} {resp.text}", file=sys.stderr)
+        print(f"Error fetching daily metrics from Zernio: {resp.status_code} {resp.text}", file=sys.stderr)
         sys.exit(1)
 
     return resp.json()
@@ -136,12 +135,12 @@ def fetch_best_time() -> dict:
     """Fetch best posting times."""
     params = {
         "platform": "linkedin",
-        "profileId": _get_env("LATE_LINKEDIN_ACCOUNT_ID"),
+        "profileId": _get_env("ZERNIO_LINKEDIN_ACCOUNT_ID"),
     }
 
     resp = requests.get(
-        f"{LATE_API_BASE}/analytics/best-time",
-        headers=_late_headers(),
+        f"{ZERNIO_API_BASE}/analytics/best-time",
+        headers=_zernio_headers(),
         params=params,
     )
 
@@ -156,12 +155,12 @@ def fetch_content_decay() -> dict:
     """Fetch content decay data."""
     params = {
         "platform": "linkedin",
-        "profileId": _get_env("LATE_LINKEDIN_ACCOUNT_ID"),
+        "profileId": _get_env("ZERNIO_LINKEDIN_ACCOUNT_ID"),
     }
 
     resp = requests.get(
-        f"{LATE_API_BASE}/analytics/content-decay",
-        headers=_late_headers(),
+        f"{ZERNIO_API_BASE}/analytics/content-decay",
+        headers=_zernio_headers(),
         params=params,
     )
 
@@ -176,12 +175,12 @@ def fetch_posting_frequency() -> dict:
     """Fetch posting frequency vs engagement data."""
     params = {
         "platform": "linkedin",
-        "profileId": _get_env("LATE_LINKEDIN_ACCOUNT_ID"),
+        "profileId": _get_env("ZERNIO_LINKEDIN_ACCOUNT_ID"),
     }
 
     resp = requests.get(
-        f"{LATE_API_BASE}/analytics/posting-frequency",
-        headers=_late_headers(),
+        f"{ZERNIO_API_BASE}/analytics/posting-frequency",
+        headers=_zernio_headers(),
         params=params,
     )
 

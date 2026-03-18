@@ -1,6 +1,6 @@
 # Growth Analytics
 
-Analyze social media post performance and podcast subscriber growth. Pulls LinkedIn post metrics from the Late API and subscriber counts from Supabase.
+Analyze social media post performance and podcast subscriber growth. Pulls LinkedIn post metrics from the Zernio API and subscriber counts from Supabase.
 
 ## Trigger
 
@@ -23,7 +23,7 @@ Default to a **full report for the last 30 days** if the user doesn't specify.
 
 ### Step 2: Pull LinkedIn Post Analytics
 
-Use the analytics script to fetch data from the Late API.
+Use the analytics script to fetch data from the Zernio API.
 
 #### Recent post performance
 
@@ -40,7 +40,7 @@ Returns each post with: content preview, published date, impressions, reach, lik
 
 ```bash
 python skills/growth-analytics/scripts/growth_analytics.py posts \
-  --post-id "late_post_id_or_external_id"
+  --post-id "zernio_post_id_or_external_id"
 ```
 
 #### Daily aggregated metrics
@@ -160,8 +160,8 @@ Lead with a one-line headline summarizing the most important finding, then prese
 
 | Variable | Description |
 |---|---|
-| `LATE_API_KEY` | Late API key (same as linkedin-posting) |
-| `LATE_LINKEDIN_ACCOUNT_ID` | Late LinkedIn account ID (same as linkedin-posting) |
+| `ZERNIO_API_KEY` | Zernio API key (same as linkedin-posting) |
+| `ZERNIO_LINKEDIN_ACCOUNT_ID` | Zernio LinkedIn account ID (same as linkedin-posting) |
 | `SUPABASE_URL` | Supabase project URL |
 | `SUPABASE_SERVICE_ROLE_KEY` | Supabase secret key |
 
@@ -186,7 +186,7 @@ The script loads these from its own `.env` file or inherits from the environment
 - ALWAYS suggest actionable next steps based on the data
 - NEVER make up metrics — if the API returns an error, tell the user
 - NEVER treat engagement rate as a single number — break it down into comments, likes, and reach separately
-- If the analytics add-on is not enabled (402 error), inform the user they need to enable it on getlate.dev
-- Late API analytics data is cached and refreshed at most once per hour — mention this if the user asks about real-time data
+- If the analytics add-on is not enabled (402 error), inform the user they need to enable it on zernio.com
+- Zernio API analytics data is cached and refreshed at most once per hour — mention this if the user asks about real-time data
 - When comparing periods, use the same duration (e.g., this month vs last month, not this month vs last week)
 - A post with high reach but zero comments is a failure by the goal hierarchy — flag it

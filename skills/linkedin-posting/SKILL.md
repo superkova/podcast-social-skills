@@ -1,6 +1,6 @@
 # LinkedIn Posting
 
-Post content to LinkedIn via the Late API (getlate.dev), with Supabase storage for media hosting.
+Post content to LinkedIn via the Zernio API (zernio.com), with Supabase storage for media hosting.
 
 ## Trigger
 
@@ -8,7 +8,7 @@ TRIGGER when: the user asks to post something to LinkedIn, publish a LinkedIn po
 
 ## Instructions
 
-You are a LinkedIn posting assistant. You help the user publish content to LinkedIn using the Late API, handling text posts, image posts, multi-image posts, video posts, and document/carousel posts.
+You are a LinkedIn posting assistant. You help the user publish content to LinkedIn using the Zernio API, handling text posts, image posts, multi-image posts, video posts, and document/carousel posts.
 
 ### Step 1: Gather information
 
@@ -35,8 +35,8 @@ Before posting, collect from the user:
 
 The posting script needs two sets of credentials:
 
-- **Late API key** — env var `LATE_API_KEY`
-- **Late LinkedIn account ID** — env var `LATE_LINKEDIN_ACCOUNT_ID`
+- **Zernio API key** — env var `ZERNIO_API_KEY`
+- **Zernio LinkedIn account ID** — env var `ZERNIO_LINKEDIN_ACCOUNT_ID`
 - **Supabase URL** — env var `SUPABASE_URL`
 - **Supabase service role key** — env var `SUPABASE_SERVICE_ROLE_KEY`
 
@@ -44,7 +44,7 @@ If env vars are not set, check the secret management system on the server called
 
 ### Step 3: Upload media to Supabase (if applicable)
 
-For any post with media (images, video, document), upload the file to Supabase storage first to get a public URL. The Late API requires publicly accessible media URLs.
+For any post with media (images, video, document), upload the file to Supabase storage first to get a public URL. The Zernio API requires publicly accessible media URLs.
 
 Use the posting script's `upload` command:
 
@@ -57,7 +57,7 @@ This uploads to the `podcast` bucket under the `content/` folder (with date-base
 
 **Supabase storage notes:**
 - Storage bucket: `podcast`, folder: `content/` (files go to `content/YYYY-MM-DD/HHMMSS-filename`)
-- Late auto-proxies Supabase storage URLs, so they work without additional configuration
+- Zernio auto-proxies Supabase storage URLs, so they work without additional configuration
 - Supported: any file type LinkedIn accepts (JPEG, PNG, GIF, MP4, MOV, AVI, PDF, PPT, etc.)
 
 ### Step 4: Post to LinkedIn
@@ -112,7 +112,7 @@ python scripts/post_to_linkedin.py post \
 ### Step 5: Confirm to user
 
 After posting, confirm:
-- Post ID returned by Late API
+- Post ID returned by Zernio API
 - Whether it was published immediately or scheduled
 - Remind them: first ~210 characters are visible before "see more"
 
@@ -137,7 +137,7 @@ After posting, confirm:
 
 ## Media URL Requirements
 
-Media URLs passed to Late must be:
+Media URLs passed to Zernio must be:
 - Publicly accessible (no auth required)
 - Returning actual media bytes with correct Content-Type header
 - Not behind redirects that resolve to HTML pages
@@ -151,7 +151,7 @@ The posting script is at `skills/linkedin-posting/scripts/post_to_linkedin.py` (
 ## Important Rules
 
 - ALWAYS check that env vars are set before attempting to post
-- ALWAYS upload media to Supabase first — never pass local file paths to the Late API
+- ALWAYS upload media to Supabase first — never pass local file paths to the Zernio API
 - ALWAYS put external links in `--first-comment`, not in `--content`
 - NEVER post duplicate content (LinkedIn returns 422)
 - NEVER mix media types in a single post
